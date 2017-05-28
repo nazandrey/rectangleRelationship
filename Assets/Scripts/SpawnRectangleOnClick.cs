@@ -11,7 +11,8 @@ public class SpawnRectangleOnClick : MonoBehaviour {
 	public void OnMouseDown()
 	{
 		if (rectanglePrefab != null && NoRectanglesAround()) {
-			Instantiate (rectanglePrefab, getCameraMousePosition(), new Quaternion ());
+			GameObject spawnedRectangle = Instantiate (rectanglePrefab, getCameraMousePosition(), new Quaternion ());
+			spawnedRectangle.GetComponent<Renderer>().material.color = Random.ColorHSV(0f, 1f, 1f, 1f, 0.5f, 1f);
 		} else if (rectanglePrefab == null) {
 			Debug.LogWarning ("no rectangle prefab for SpawnRectangleOnClick");
 		}
