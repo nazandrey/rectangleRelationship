@@ -9,16 +9,6 @@ public class SpawnRectangleOnClick : MonoBehaviour {
 
 	public GameObject rectanglePrefab;
 
-	public void OnMouseDown()
-	{
-		if (rectanglePrefab != null && _NoRectanglesAround()) {
-			GameObject spawnedRectangle = Instantiate (rectanglePrefab, _getCameraMousePosition(), new Quaternion ());
-			spawnedRectangle.GetComponent<Renderer>().material.color = Random.ColorHSV(0f, 1f, 1f, 1f, 0.5f, 1f);
-		} else if (rectanglePrefab == null) {
-			Debug.LogWarning ("no rectangle prefab for SpawnRectangleOnClick");
-		}
-	}
-
 	private bool _NoRectanglesAround()
 	{
 		SpriteRenderer rectanglePrefabRenderer = rectanglePrefab.GetComponent<SpriteRenderer>();
@@ -34,5 +24,15 @@ public class SpawnRectangleOnClick : MonoBehaviour {
 		Vector3 vector3MousePosition = Input.mousePosition;
 		vector3MousePosition.z = _CameraZPosition + _PrefabZDelta;
 		return Camera.main.ScreenToWorldPoint(vector3MousePosition);
+	}
+
+	public void OnMouseDown()
+	{
+		if (rectanglePrefab != null && _NoRectanglesAround()) {
+			GameObject spawnedRectangle = Instantiate (rectanglePrefab, _getCameraMousePosition(), new Quaternion ());
+			spawnedRectangle.GetComponent<Renderer>().material.color = Random.ColorHSV(0f, 1f, 1f, 1f, 0.5f, 1f);
+		} else if (rectanglePrefab == null) {
+			Debug.LogWarning ("no rectangle prefab for SpawnRectangleOnClick");
+		}
 	}
 }
