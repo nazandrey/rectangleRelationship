@@ -5,6 +5,7 @@ TagManager:
   serializedVersion: 2
   tags:
   - RelationPoint
+  - Rectangle
   layers:
   - Default
   - TransparentFX
