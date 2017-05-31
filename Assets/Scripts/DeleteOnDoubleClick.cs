@@ -3,24 +3,24 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class DeleteOnDoubleClick : MonoBehaviour {
-	private const float Delay = 0.3F;
+	private const float _Delay = 0.3F;
 
-	private bool firstClick = false;
-	private float runningTimerSecond;
+	private bool _firstClick = false;
+	private float _runningTimerSecond;
 
 	public void OnMouseDown()
 	{
 		// If the time is too long we reset first click variable
-		if (firstClick && (Time.time - runningTimerSecond) > Delay) {
-			firstClick = false;
+		if (_firstClick && (Time.time - _runningTimerSecond) > _Delay) {
+			_firstClick = false;
 		}
 
-		if (!firstClick) {
-			firstClick = true;
-			runningTimerSecond = Time.time;
+		if (!_firstClick) {
+			_firstClick = true;
+			_runningTimerSecond = Time.time;
 		} else {
 			//double click has happen
-			firstClick = false;
+			_firstClick = false;
 			Destroy (gameObject);
 		}
 	}
