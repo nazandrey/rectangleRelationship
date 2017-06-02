@@ -8,6 +8,8 @@ public class DeleteOnDoubleClick : MonoBehaviour {
 	private bool _firstClick = false;
 	private float _runningTimerSecond;
 
+	public bool destroyParent = false;
+
 	public void OnMouseDown()
 	{
 		// If the time is too long we reset first click variable
@@ -21,7 +23,11 @@ public class DeleteOnDoubleClick : MonoBehaviour {
 		} else {
 			//double click has happen
 			_firstClick = false;
-			Destroy (gameObject);
+			if (destroyParent) {
+				Destroy (transform.parent.gameObject);
+			} else {	
+				Destroy (gameObject);
+			}
 		}
 	}
 }

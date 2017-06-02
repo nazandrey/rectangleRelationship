@@ -32,10 +32,12 @@ public class RelationPointController : MonoBehaviour {
 		if (transform.hasChanged) {
 			foreach (LineRenderer relationLineStartPoint in _relationLineStartPointList) {
 				UpdateRelationLineStartPosition (relationLineStartPoint, transform.position);
+				relationLineStartPoint.GetComponentInChildren<RelationLineController> ().UpdateColliderPosition ();
 			}
 
 			foreach (LineRenderer relationLineEndPoint in _relationLineEndPointList) {
 				UpdateRelationLineEndPosition (relationLineEndPoint, transform.position);
+				relationLineEndPoint.GetComponentInChildren<RelationLineController> ().UpdateColliderPosition ();
 			}
 		}
 	}

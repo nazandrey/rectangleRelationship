@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class CreateRelationshipOnClick : MonoBehaviour {
-	public GameObject relationLineContainerPrefab;
+	public GameObject relationLinePrefab;
 
 	private bool _creatingRelationship = false;
 	private GameObject _relationLine;
@@ -38,8 +38,8 @@ public class CreateRelationshipOnClick : MonoBehaviour {
 					_startingRelationPointRenderer = hit.collider.GetComponent<SpriteRenderer> ();
 					_startingRelationPointRenderer.color = Color.black;
 
-					_relationLine = Instantiate(relationLineContainerPrefab);
-					_relationLineController = _relationLine.GetComponent<RelationLineController> ();
+					_relationLine = Instantiate(relationLinePrefab);
+					_relationLineController = _relationLine.GetComponentInChildren<RelationLineController> ();
 					_relationLineController.InitStartPoint (hit.collider.transform.position);
 					_AddRelationLineStartPoint (hit.collider);
 				} else {
