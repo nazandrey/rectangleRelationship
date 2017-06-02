@@ -7,7 +7,7 @@ public class DragOnMouseMove : MonoBehaviour {
 	private Vector3 _offset;
 	private bool _canDrag = true;
 
-	public void OnMouseDown()
+	private void OnMouseDown()
 	{
 		RaycastHit2D hit = Physics2D.Raycast (Camera.main.ScreenToWorldPoint (Input.mousePosition), Vector2.zero);
 
@@ -20,7 +20,7 @@ public class DragOnMouseMove : MonoBehaviour {
 		}
 	}
 
-	public void OnMouseDrag()
+	private void OnMouseDrag()
 	{
 		if (_canDrag) {
 			Vector3 curScreenPoint = new Vector3 (Input.mousePosition.x, Input.mousePosition.y, _screenPoint.z);

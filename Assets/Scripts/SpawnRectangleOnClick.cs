@@ -26,7 +26,7 @@ public class SpawnRectangleOnClick : MonoBehaviour {
 		return Camera.main.ScreenToWorldPoint(vector3MousePosition);
 	}
 
-	public void OnMouseDown()
+	private void OnMouseDown()
 	{
 		if (rectanglePrefab != null && _NoRectanglesAround()) {
 			GameObject spawnedRectangle = Instantiate (rectanglePrefab, _getCameraMousePosition(), new Quaternion ());

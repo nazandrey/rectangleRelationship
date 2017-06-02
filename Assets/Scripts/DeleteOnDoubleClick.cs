@@ -10,7 +10,7 @@ public class DeleteOnDoubleClick : MonoBehaviour {
 
 	public bool destroyParent = false;
 
-	public void OnMouseDown()
+	private void OnMouseDown()
 	{
 		// If the time is too long we reset first click variable
 		if (_firstClick && (Time.time - _runningTimerSecond) > _Delay) {
