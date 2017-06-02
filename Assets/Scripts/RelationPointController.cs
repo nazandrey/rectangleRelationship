@@ -28,7 +28,7 @@ public class RelationPointController : MonoBehaviour {
 		_UpdateRelationLinePosition (relationLineRender, position, false);
 	}
 
-	public void Update(){
+	private void Update(){
 		if (transform.hasChanged) {
 			foreach (LineRenderer relationLineStartPoint in _relationLineStartPointList) {
 				UpdateRelationLineStartPosition (relationLineStartPoint, transform.position);
@@ -39,6 +39,15 @@ public class RelationPointController : MonoBehaviour {
 				UpdateRelationLineEndPosition (relationLineEndPoint, transform.position);
 				relationLineEndPoint.GetComponentInChildren<RelationLineController> ().UpdateColliderPosition ();
 			}
+		}
+	}
+
+	private void OnDestroy() {
+		foreach (LineRenderer relationLineStartPoint in _relationLineStartPointList) {
+			Destroy (relationLineStartPoint);
+		}
+		foreach (LineRenderer relationLineEndPoint in _relationLineEndPointList) {
+			Destroy (relationLineEndPoint);
 		}
 	}
 }
