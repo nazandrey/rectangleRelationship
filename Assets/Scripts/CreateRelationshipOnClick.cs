@@ -19,6 +19,13 @@ public class CreateRelationshipOnClick : MonoBehaviour {
 		relationPointController.AddRelationLinePoint (relationLineRenderer, isStart);
 	}
 
+	private void CancelCreating(){
+		_startRelationPointRenderer.color = Color.white;
+		_startRelationPointRenderer = null;
+		_startRelationPoint = null;
+		_creatingRelationship = false;
+	}
+
 	private void Update (){
 		if (Input.GetMouseButtonDown (0)) {
 			RaycastHit2D hit = Physics2D.Raycast (Camera.main.ScreenToWorldPoint (Input.mousePosition), Vector2.zero);
@@ -30,7 +37,7 @@ public class CreateRelationshipOnClick : MonoBehaviour {
 					_startRelationPointRenderer.color = Color.black;
 					_startRelationPoint = hit.collider.transform;
 				} else {
-					GameObject relationLine = Instantiate(relationLinePrefab);
+					GameObject relationLine = Instantiate (relationLinePrefab);
 					LineRenderer relationLineRenderer = relationLine.GetComponent<LineRenderer> ();
 					Transform endRelationPoint = hit.collider.transform;
 					RelationLineController relationLineController = relationLine.GetComponentInChildren<RelationLineController> ();
@@ -40,9 +47,10 @@ public class CreateRelationshipOnClick : MonoBehaviour {
 
 					relationLineController.UpdateColliderPosition ();
 
-					_startRelationPointRenderer.color = Color.white;
-					_creatingRelationship = false;
+					CancelCreating ();
 				}
+			} else if(_creatingRelationship){
+				CancelCreating ();
 			}
 		}
 	}
