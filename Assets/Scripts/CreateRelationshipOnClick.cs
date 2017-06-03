@@ -37,15 +37,17 @@ public class CreateRelationshipOnClick : MonoBehaviour {
 					_startRelationPointRenderer.color = Color.black;
 					_startRelationPoint = hit.collider.transform;
 				} else {
-					GameObject relationLine = Instantiate (relationLinePrefab);
-					LineRenderer relationLineRenderer = relationLine.GetComponent<LineRenderer> ();
 					Transform endRelationPoint = hit.collider.transform;
-					RelationLineController relationLineController = relationLine.GetComponentInChildren<RelationLineController> ();
 
-					_InitRelationPoint (_startRelationPoint, relationLineRenderer, relationLineController, true);
-					_InitRelationPoint (endRelationPoint, relationLineRenderer, relationLineController, false);
+					if (_startRelationPoint.parent != endRelationPoint.parent) {
+						GameObject relationLine = Instantiate (relationLinePrefab);
+						LineRenderer relationLineRenderer = relationLine.GetComponent<LineRenderer> ();
+						RelationLineController relationLineController = relationLine.GetComponentInChildren<RelationLineController> ();
 
-					relationLineController.UpdateColliderPosition ();
+						_InitRelationPoint (_startRelationPoint, relationLineRenderer, relationLineController, true);
+						_InitRelationPoint (endRelationPoint, relationLineRenderer, relationLineController, false);
+						relationLineController.UpdateColliderPosition ();
+					}
 
 					CancelCreating ();
 				}
