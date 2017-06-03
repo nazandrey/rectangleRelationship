@@ -6,26 +6,17 @@ public class CreateRelationshipOnClick : MonoBehaviour {
 	public GameObject relationLinePrefab;
 
 	private bool _creatingRelationship = false;
-	private GameObject _relationLine;
 	private RelationLineController _relationLineController;
-	private SpriteRenderer _startingRelationPointRenderer;
+	private SpriteRenderer _startRelationPointRenderer;
+	private Transform _startRelationPoint;
 
-	private void _AddRelationLinePoint(Collider2D relationPoint, bool isStart){
-		RelationPointController relationLinePointStorage = relationPoint.GetComponent<RelationPointController> ();
-		LineRenderer relationLine = _relationLine.GetComponentInChildren<LineRenderer> ();
-		if (isStart) {
-			relationLinePointStorage.AddRelationLineStartPoint (relationLine);
-		} else {
-			relationLinePointStorage.AddRelationLineEndPoint (relationLine);
-		}
-	}
+	private void _InitRelationPoint(Transform relationPoint, LineRenderer relationLineRenderer, RelationLineController relationLineController, bool isStart){
+		RelationPointController relationPointController = relationPoint.GetComponent<RelationPointController> ();
+		Vector3 position = relationPoint.position;
 
-	private void _AddRelationLineStartPoint(Collider2D relationPoint){
-		_AddRelationLinePoint (relationPoint, true);
-	}
-
-	private void _AddRelationLineEndPoint(Collider2D relationPoint){
-		_AddRelationLinePoint (relationPoint, false);
+		relationLineRenderer.SetPosition (isStart ? 0 : 1, position);
+		relationLineController.SaveRelationPoint (relationPointController, isStart);
+		relationPointController.AddRelationLinePoint (relationLineRenderer, isStart);
 	}
 
 	private void Update (){
@@ -35,18 +26,21 @@ public class CreateRelationshipOnClick : MonoBehaviour {
 			if (hit.collider != null && hit.collider.tag == "RelationPoint") {
 				if (!_creatingRelationship) {
 					_creatingRelationship = true;
-					_startingRelationPointRenderer = hit.collider.GetComponent<SpriteRenderer> ();
-					_startingRelationPointRenderer.color = Color.black;
-
-					_relationLine = Instantiate(relationLinePrefab);
-					_relationLineController = _relationLine.GetComponentInChildren<RelationLineController> ();
-					_relationLineController.InitStartPoint (hit.collider.transform.position);
-					_AddRelationLineStartPoint (hit.collider);
+					_startRelationPointRenderer = hit.collider.GetComponent<SpriteRenderer> ();
+					_startRelationPointRenderer.color = Color.black;
+					_startRelationPoint = hit.collider.transform;
 				} else {
-					_relationLineController.InitEndPoint (hit.collider.transform.position);
-					_AddRelationLineEndPoint (hit.collider);
+					GameObject relationLine = Instantiate(relationLinePrefab);
+					LineRenderer relationLineRenderer = relationLine.GetComponent<LineRenderer> ();
+					Transform endRelationPoint = hit.collider.transform;
+					RelationLineController relationLineController = relationLine.GetComponentInChildren<RelationLineController> ();
 
-					_startingRelationPointRenderer.color = Color.white;
+					_InitRelationPoint (_startRelationPoint, relationLineRenderer, relationLineController, true);
+					_InitRelationPoint (endRelationPoint, relationLineRenderer, relationLineController, false);
+
+					relationLineController.UpdateColliderPosition ();
+
+					_startRelationPointRenderer.color = Color.white;
 					_creatingRelationship = false;
 				}
 			}

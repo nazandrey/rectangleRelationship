@@ -6,48 +6,59 @@ public class RelationPointController : MonoBehaviour {
 	private List<LineRenderer> _relationLineStartPointList = new List<LineRenderer>();
 	private List<LineRenderer> _relationLineEndPointList = new List<LineRenderer>();
 
+	public void AddRelationLinePoint(LineRenderer relationLinePoint, bool isStart){
+		if (isStart) {
+			_relationLineStartPointList.Add (relationLinePoint);
+		} else {
+			_relationLineEndPointList.Add (relationLinePoint);
+
+		}
+	}
+
+	public void RemoveStartLine(LineRenderer relationLineRender){
+		_RemoveRelationLine (relationLineRender, true);
+	}
+
+	public void RemoveEndLine(LineRenderer relationLineRender){
+		_RemoveRelationLine (relationLineRender, false);
+	}
+
 	private void _UpdateRelationLinePosition(LineRenderer relationLineRender, Vector3 position, bool isStart){
 		if (relationLineRender != null) {
 			relationLineRender.SetPosition (isStart ? 0 : 1, position);
 		}
 	}
 
-	public void AddRelationLineStartPoint(LineRenderer relationLinePoint){
-		_relationLineStartPointList.Add (relationLinePoint);
+	private void _RemoveRelationLine(LineRenderer relationLineRender, bool isStart){
+		if (isStart) {
+			_relationLineStartPointList.Remove (relationLineRender);
+		} else {
+			_relationLineEndPointList.Remove (relationLineRender);
+		}
 	}
 
-	public void AddRelationLineEndPoint(LineRenderer relationLinePoint){
-		_relationLineEndPointList.Add (relationLinePoint);
-	}
-
-	public void UpdateRelationLineStartPosition(LineRenderer relationLineRender, Vector3 position){
-		_UpdateRelationLinePosition (relationLineRender, position, true);
-	}
-
-	public void UpdateRelationLineEndPosition(LineRenderer relationLineRender, Vector3 position){
-		_UpdateRelationLinePosition (relationLineRender, position, false);
+	private void _UpdateLinePosition(LineRenderer relationPoint, bool isStart){
+		_UpdateRelationLinePosition (relationPoint, transform.position, isStart);
+		relationPoint.GetComponentInChildren<RelationLineController> ().UpdateColliderPosition ();
 	}
 
 	private void Update(){
 		if (transform.hasChanged) {
 			foreach (LineRenderer relationLineStartPoint in _relationLineStartPointList) {
-				UpdateRelationLineStartPosition (relationLineStartPoint, transform.position);
-				relationLineStartPoint.GetComponentInChildren<RelationLineController> ().UpdateColliderPosition ();
+				_UpdateLinePosition (relationLineStartPoint, true);
 			}
-
 			foreach (LineRenderer relationLineEndPoint in _relationLineEndPointList) {
-				UpdateRelationLineEndPosition (relationLineEndPoint, transform.position);
-				relationLineEndPoint.GetComponentInChildren<RelationLineController> ().UpdateColliderPosition ();
+				_UpdateLinePosition (relationLineEndPoint, false);
 			}
 		}
 	}
 
 	private void OnDestroy() {
 		foreach (LineRenderer relationLineStartPoint in _relationLineStartPointList) {
-			Destroy (relationLineStartPoint);
+			Destroy (relationLineStartPoint.gameObject);
 		}
 		foreach (LineRenderer relationLineEndPoint in _relationLineEndPointList) {
-			Destroy (relationLineEndPoint);
+			Destroy (relationLineEndPoint.gameObject);
 		}
 	}
 }

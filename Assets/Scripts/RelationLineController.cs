@@ -5,17 +5,19 @@ using UnityEngine;
 public class RelationLineController : MonoBehaviour {
 	private const int _ColliderWidthMultiplier = 8;
 	private LineRenderer _relationLineRenderer;
+	private RelationPointController _startRelationPoint;
+	private RelationPointController _endRelationPoint;
 
-	public void InitStartPoint(Vector3 position){
+	private void Awake(){
 		_relationLineRenderer = gameObject.GetComponentInParent<LineRenderer> ();
-		_relationLineRenderer.enabled = false;
-		_relationLineRenderer.SetPosition (0, position);
 	}
 
-	public void InitEndPoint(Vector3 position){
-		_relationLineRenderer.SetPosition (1, position);
-		_relationLineRenderer.enabled = true;
-		UpdateColliderPosition ();
+	public void SaveRelationPoint(RelationPointController relationPoint, bool isStart){
+		if (isStart) {
+			_startRelationPoint = relationPoint;
+		} else {
+			_endRelationPoint = relationPoint;
+		}
 	}
 
 	public void UpdateColliderPosition()
@@ -36,5 +38,10 @@ public class RelationLineController : MonoBehaviour {
 			angle = Mathf.Rad2Deg * Mathf.Atan (angle);
 			collider.transform.rotation = Quaternion.Euler(0,0,angle);
 		}
+	}
+
+	private void OnDestroy(){
+		_startRelationPoint.RemoveStartLine(_relationLineRenderer);
+		_endRelationPoint.RemoveEndLine(_relationLineRenderer);
 	}
 }
