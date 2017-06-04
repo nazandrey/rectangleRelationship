@@ -23,17 +23,17 @@ public class RelationPointController : MonoBehaviour {
 		_RemoveRelationLine (relationLineRender, false);
 	}
 
-	private void _UpdateRelationLinePosition(LineRenderer relationLineRender, Vector3 position, bool isStart){
-		if (relationLineRender != null) {
-			relationLineRender.SetPosition (isStart ? 0 : 1, position);
-		}
-	}
-
 	private void _RemoveRelationLine(LineRenderer relationLineRender, bool isStart){
 		if (isStart) {
 			_relationLineStartPointList.Remove (relationLineRender);
 		} else {
 			_relationLineEndPointList.Remove (relationLineRender);
+		}
+	}
+
+	private void _UpdateRelationLinePosition(LineRenderer relationLineRender, Vector3 position, bool isStart){
+		if (relationLineRender != null) {
+			relationLineRender.SetPosition (isStart ? 0 : 1, position);
 		}
 	}
 
@@ -43,6 +43,7 @@ public class RelationPointController : MonoBehaviour {
 	}
 
 	private void Update(){
+		// if position of relation point has changed update relation line from and to this point
 		if (transform.hasChanged) {
 			foreach (LineRenderer relationLineStartPoint in _relationLineStartPointList) {
 				_UpdateRelationLine (relationLineStartPoint, true);

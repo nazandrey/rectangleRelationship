@@ -17,12 +17,14 @@ public class SpawnRectangleOnClick : MonoBehaviour {
 		if(rectanglePrefabRenderer != null){
 			size = rectanglePrefabRenderer.bounds.size;
 		}
+		//_rectangleLayerMask is needed because layout is overlapping everytime otherwise
 		return size != Vector3.zero ? Physics2D.OverlapBox (_getCameraMousePosition (), size, 0, _rectangleLayerMask) == null : false;
 	}
 
 	private Vector3 _getCameraMousePosition(){
 		//convert mouse position to main camera area
 		Vector3 vector3MousePosition = Input.mousePosition;
+		//_PrefabZDelta to make rectangle visible
 		vector3MousePosition.z = _cameraZPositionDelta + _PrefabZDelta;
 		return Camera.main.ScreenToWorldPoint(vector3MousePosition);
 	}

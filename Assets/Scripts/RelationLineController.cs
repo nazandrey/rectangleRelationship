@@ -24,6 +24,7 @@ public class RelationLineController : MonoBehaviour {
 		BoxCollider2D collider = (BoxCollider2D) _relationLineRenderer.GetComponentInChildren<BoxCollider2D> ();
 		if (collider != null) {
 			float lineLength = Vector2.Distance (startPosition, endPosition);
+			// multiply collider width for better click catching
 			collider.size = new Vector2 (lineLength, _relationLineRenderer.startWidth * _ColliderWidthMultiplier);
 			Vector2 midPoint = (startPosition + endPosition) / 2;
 			collider.transform.position = midPoint;

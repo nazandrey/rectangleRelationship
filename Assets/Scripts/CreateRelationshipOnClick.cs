@@ -30,7 +30,9 @@ public class CreateRelationshipOnClick : MonoBehaviour {
 		if (Input.GetMouseButtonDown (0)) {
 			RaycastHit2D hit = Physics2D.Raycast (Camera.main.ScreenToWorldPoint (Input.mousePosition), Vector2.zero);
 
+			//handle only if we click exactly on visible part of RelationPoint
 			if (hit.collider != null && hit.collider.tag == "RelationPoint") {
+				//init creating relationship, save start point
 				if (!_creatingRelationship) {
 					_creatingRelationship = true;
 					_startRelationPointRenderer = hit.collider.GetComponent<SpriteRenderer> ();
@@ -39,6 +41,7 @@ public class CreateRelationshipOnClick : MonoBehaviour {
 				} else {
 					Transform endRelationPoint = hit.collider.transform;
 
+					//if second click is not on the same rectangle create relationship
 					if (_startRelationPoint.parent != endRelationPoint.parent) {
 						GameObject relationLine = Instantiate (relationLinePrefab);
 						LineRenderer relationLineRenderer = relationLine.GetComponent<LineRenderer> ();
@@ -52,6 +55,7 @@ public class CreateRelationshipOnClick : MonoBehaviour {
 					_CancelCreating ();
 				}
 			} else if(_creatingRelationship){
+				//if second click has not hit relation point just cancel creating
 				_CancelCreating ();
 			}
 		}
