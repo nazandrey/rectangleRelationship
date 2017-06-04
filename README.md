@@ -1,6 +1,6 @@
 ### Setup ###
 
-1. git clone https://github.com/nazandrey/tankGame.git
+1. "Clone or download" project
 1. open project
 1. open main.unity in Assets/Scenes
 1. play
