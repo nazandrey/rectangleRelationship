@@ -14,3 +14,5 @@
   * Second click (on point of another rectangle) - finish creating realtionship beetwen rectangles
 * Double click on line between rectangles - delete this line
 
+### Additional Info ###
+You can look at presentation of inital plan in InitialPlan.pptx
