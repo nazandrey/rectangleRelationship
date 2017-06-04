@@ -6,11 +6,11 @@ public class RelationPointController : MonoBehaviour {
 	private List<LineRenderer> _relationLineStartPointList = new List<LineRenderer>();
 	private List<LineRenderer> _relationLineEndPointList = new List<LineRenderer>();
 
-	public void AddRelationLinePoint(LineRenderer relationLinePoint, bool isStart){
+	public void SaveRelationLine(LineRenderer relationLine, bool isStart){
 		if (isStart) {
-			_relationLineStartPointList.Add (relationLinePoint);
+			_relationLineStartPointList.Add (relationLine);
 		} else {
-			_relationLineEndPointList.Add (relationLinePoint);
+			_relationLineEndPointList.Add (relationLine);
 
 		}
 	}
@@ -37,7 +37,7 @@ public class RelationPointController : MonoBehaviour {
 		}
 	}
 
-	private void _UpdateLinePosition(LineRenderer relationPoint, bool isStart){
+	private void _UpdateRelationLine(LineRenderer relationPoint, bool isStart){
 		_UpdateRelationLinePosition (relationPoint, transform.position, isStart);
 		relationPoint.GetComponentInChildren<RelationLineController> ().UpdateColliderPosition ();
 	}
@@ -45,10 +45,10 @@ public class RelationPointController : MonoBehaviour {
 	private void Update(){
 		if (transform.hasChanged) {
 			foreach (LineRenderer relationLineStartPoint in _relationLineStartPointList) {
-				_UpdateLinePosition (relationLineStartPoint, true);
+				_UpdateRelationLine (relationLineStartPoint, true);
 			}
 			foreach (LineRenderer relationLineEndPoint in _relationLineEndPointList) {
-				_UpdateLinePosition (relationLineEndPoint, false);
+				_UpdateRelationLine (relationLineEndPoint, false);
 			}
 		}
 	}

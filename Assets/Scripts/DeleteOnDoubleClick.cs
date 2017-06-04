@@ -8,7 +8,7 @@ public class DeleteOnDoubleClick : MonoBehaviour {
 	private const float _Delay = 0.3F;
 
 	private bool _firstClick = false;
-	private float _runningTimerSecond;
+	private float _firstClickTime;
 
 	private void OnMouseDown()
 	{
@@ -16,13 +16,13 @@ public class DeleteOnDoubleClick : MonoBehaviour {
 		//handle only if we click exactly on visible part of this gameobject
 		if (hit.collider != null && hit.collider.gameObject == gameObject) {
 			// If the time is too long we reset first click variable
-			if (_firstClick && (Time.time - _runningTimerSecond) > _Delay) {
+			if (_firstClick && (Time.time - _firstClickTime) > _Delay) {
 				_firstClick = false;
 			}
 
 			if (!_firstClick) {
 				_firstClick = true;
-				_runningTimerSecond = Time.time;
+				_firstClickTime = Time.time;
 			} else {
 				//double click has happen
 				_firstClick = false;

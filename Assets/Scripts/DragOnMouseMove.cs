@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class DragOnMouseMove : MonoBehaviour {
-	private Vector3 _screenPoint;
+	private float _cameraZPositionDelta;
 	private Vector3 _offset;
 	private bool _canDrag = true;
 
@@ -13,8 +13,8 @@ public class DragOnMouseMove : MonoBehaviour {
 
 		if (hit.collider != null && hit.collider.tag == "Rectangle") {
 			_canDrag = true;
-			_screenPoint = Camera.main.WorldToScreenPoint (gameObject.transform.position);
-			_offset = gameObject.transform.position - Camera.main.ScreenToWorldPoint (new Vector3 (Input.mousePosition.x, Input.mousePosition.y, _screenPoint.z));
+			_cameraZPositionDelta = Camera.main.WorldToScreenPoint (gameObject.transform.position).z;
+			_offset = gameObject.transform.position - Camera.main.ScreenToWorldPoint (new Vector3 (Input.mousePosition.x, Input.mousePosition.y, _cameraZPositionDelta));
 		} else {
 			_canDrag = false;
 		}
@@ -23,7 +23,7 @@ public class DragOnMouseMove : MonoBehaviour {
 	private void OnMouseDrag()
 	{
 		if (_canDrag) {
-			Vector3 curScreenPoint = new Vector3 (Input.mousePosition.x, Input.mousePosition.y, _screenPoint.z);
+			Vector3 curScreenPoint = new Vector3 (Input.mousePosition.x, Input.mousePosition.y, _cameraZPositionDelta);
 			Vector3 curPosition = Camera.main.ScreenToWorldPoint (curScreenPoint) + _offset;
 			transform.position = curPosition;
 		}

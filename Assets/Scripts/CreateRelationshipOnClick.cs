@@ -16,7 +16,7 @@ public class CreateRelationshipOnClick : MonoBehaviour {
 
 		relationLineRenderer.SetPosition (isStart ? 0 : 1, position);
 		relationLineController.SaveRelationPoint (relationPointController, isStart);
-		relationPointController.AddRelationLinePoint (relationLineRenderer, isStart);
+		relationPointController.SaveRelationLine (relationLineRenderer, isStart);
 	}
 
 	private void _CancelCreating(){

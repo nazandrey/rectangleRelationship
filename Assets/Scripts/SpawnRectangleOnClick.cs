@@ -3,9 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class SpawnRectangleOnClick : MonoBehaviour {
-	private const int _CameraZPosition = 10;
 	private const int _PrefabZDelta = -1;
-	private const int _RectangleLayerMask = 256; //2^8, where 8 - RectangleLayerNum
+
+	private float _cameraZPositionDelta;
+	private int _rectangleLayerMask;
 
 	public GameObject rectanglePrefab;
 
@@ -16,14 +17,19 @@ public class SpawnRectangleOnClick : MonoBehaviour {
 		if(rectanglePrefabRenderer != null){
 			size = rectanglePrefabRenderer.bounds.size;
 		}
-		return size != Vector3.zero ? Physics2D.OverlapBox (_getCameraMousePosition (), size, 0, _RectangleLayerMask) == null : false;
+		return size != Vector3.zero ? Physics2D.OverlapBox (_getCameraMousePosition (), size, 0, _rectangleLayerMask) == null : false;
 	}
 
 	private Vector3 _getCameraMousePosition(){
 		//convert mouse position to main camera area
 		Vector3 vector3MousePosition = Input.mousePosition;
-		vector3MousePosition.z = _CameraZPosition + _PrefabZDelta;
+		vector3MousePosition.z = _cameraZPositionDelta + _PrefabZDelta;
 		return Camera.main.ScreenToWorldPoint(vector3MousePosition);
+	}
+
+	private void Awake(){
+		_rectangleLayerMask = LayerMask.GetMask("Rectangles");
+		_cameraZPositionDelta = Camera.main.WorldToScreenPoint (gameObject.transform.position).z;
 	}
 
 	private void OnMouseDown()
