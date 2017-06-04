@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class DeleteOnDoubleClick : MonoBehaviour {
+	public bool destroyParent = false;
+
 	private const float _Delay = 0.3F;
 
 	private bool _firstClick = false;
 	private float _runningTimerSecond;
-
-	public bool destroyParent = false;
 
 	private void OnMouseDown()
 	{

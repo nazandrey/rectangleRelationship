@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class CreateRelationshipOnClick : MonoBehaviour {
-	public GameObject relationLinePrefab;
+	[SerializeField]private GameObject relationLinePrefab;
 
 	private bool _creatingRelationship = false;
 	private RelationLineController _relationLineController;
@@ -19,7 +19,7 @@ public class CreateRelationshipOnClick : MonoBehaviour {
 		relationPointController.AddRelationLinePoint (relationLineRenderer, isStart);
 	}
 
-	private void CancelCreating(){
+	private void _CancelCreating(){
 		_startRelationPointRenderer.color = Color.white;
 		_startRelationPointRenderer = null;
 		_startRelationPoint = null;
@@ -49,10 +49,10 @@ public class CreateRelationshipOnClick : MonoBehaviour {
 						relationLineController.UpdateColliderPosition ();
 					}
 
-					CancelCreating ();
+					_CancelCreating ();
 				}
 			} else if(_creatingRelationship){
-				CancelCreating ();
+				_CancelCreating ();
 			}
 		}
 	}
